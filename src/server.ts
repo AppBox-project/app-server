@@ -18,8 +18,8 @@ db.once("open", async () => {
   const systemsettings = mongoose.model("SystemSettings");
 
   const apps = await systemsettings.findOne({ key: "hosted_apps" });
-  apps.value.map((app) => {
-    console.log(app);
+  apps.value.map((appInfo) => {
+    app.use(vhost(appInfo.url, express.static(appInfo.app)));
   });
 
   app.listen(port, () => {
